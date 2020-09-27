@@ -1,13 +1,12 @@
 import copy
 from collections import Counter
 
-import numpy as np
-
-
 class Solver:
     def __init__(self, field):
-        self.field = np.asarray([np.asarray(row) for row in field])
+        self.field = field
         self.solution = False
+        row = [[i for i in range(3)], [i for i in range(3, 6)], [i for i in range(6, 9)]]
+        self.boxes = [[[i, j] for j in k for i in l] for k in row for l in row]
 
     def solve(self, field, pos):
         if self.solution is False:
@@ -57,12 +56,7 @@ class Solver:
             if not self.validate_list(column):
                 return False
         # block
-        row1 = [i for i in range(3)]
-        row2 = [i for i in range(3, 6)]
-        row3 = [i for i in range(6, 9)]
-        row = [row1, row2, row3]
-        boxes = [[[i, j] for j in k for i in l] for k in row for l in row]
-        for box in boxes:
+        for box in self.boxes:
             block = [field[i][j] for i,j in box]
             if not self.validate_list(block):
                 return False
@@ -76,7 +70,7 @@ class Solver:
 
     def __str__(self):
         if self.solution is not False:
-            field = [list(i) for i in self.solution]
+            field = copy.deepcopy(self.solution)
         else:
             field = copy.deepcopy(self.field)
 
