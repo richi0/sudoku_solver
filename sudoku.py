@@ -7,24 +7,25 @@ class Solver:
         self.solution = False
 
     def solve(self, field, pos):
-        field = copy.deepcopy(field)
-        if pos:
-            if field[pos[0]][pos[1]] < 9:
-                field[pos[0]][pos[1]] += 1
-                if self.validate(field):
-                   if not self.solve(field, self.find_empty(field)):
+        if self.solution is False:
+            if pos:
+                if field[pos[0]][pos[1]] < 9:
+                    field[pos[0]][pos[1]] += 1
+                    if self.validate(field):
+                        if not self.solve(field, self.find_empty(field)):
+                                return self.solve(field, pos)
+                    else:
                         return self.solve(field, pos)
                 else:
-                    return self.solve(field, pos)
+                    field[pos[0]][pos[1]] = 0
+                    return False
             else:
-                return False
-        else:
-            if self.validate(field) and self.find_empty(field) is False:
-                self.solution = field
-                print(self)
-                return True
-            else:
-                return False
+                if self.validate(field) and self.find_empty(field) is False:
+                    self.solution = field
+                    print(self)
+                    return True
+                else:
+                    return False
             
 
     def find_empty(self, field):
