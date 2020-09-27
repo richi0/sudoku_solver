@@ -1,10 +1,12 @@
 import copy
 from collections import Counter
 
+import numpy as np
+
 
 class Solver:
     def __init__(self, field):
-        self.field = field
+        self.field = np.asarray([np.asarray(row) for row in field])
         self.solution = False
 
     def solve(self, field, pos):
@@ -45,7 +47,6 @@ class Solver:
         return True
 
     def validate(self, field):
-        field = [copy.copy(i) for i in field]
         # row
         for row in field:
             if not self.validate_list(row):
@@ -56,17 +57,13 @@ class Solver:
             if not self.validate_list(column):
                 return False
         # block
-        blocks = []
-        while field:
-            block = []
-            for row in field[:3]:
-                for i in range(3):
-                    block.append(row.pop())
-            blocks.append(block)
-            if field[0] == []:
-                for i in range(3):
-                    field.pop(0)
-        for block in blocks:
+        row1 = [i for i in range(3)]
+        row2 = [i for i in range(3, 6)]
+        row3 = [i for i in range(6, 9)]
+        row = [row1, row2, row3]
+        boxes = [[[i, j] for j in k for i in l] for k in row for l in row]
+        for box in boxes:
+            block = [field[i][j] for i,j in box]
             if not self.validate_list(block):
                 return False
         return True
@@ -78,8 +75,8 @@ class Solver:
             return f"{i} "
 
     def __str__(self):
-        if self.solution:
-            field = copy.deepcopy(self.solution)
+        if self.solution is not False:
+            field = [list(i) for i in self.solution]
         else:
             field = copy.deepcopy(self.field)
 
@@ -108,8 +105,6 @@ if __name__ == "__main__":
         [0, 0, 0, 9, 6, 0, 2, 0, 0],
         [0, 9, 0, 0, 0, 0, 0, 8, 1]
     ]
-    field = [
-    ]
     solver = Solver(field)
-    pos = solver.find_empty(field)
-    solver.solve(field, pos)
+    pos = solver.find_empty(solver.field)
+    solver.solve(solver.field, pos)
