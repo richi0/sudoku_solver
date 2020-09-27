@@ -1,6 +1,7 @@
 import copy
 from collections import Counter
 
+
 class Solver:
     def __init__(self, field):
         self.field = field
@@ -13,7 +14,7 @@ class Solver:
                     field[pos[0]][pos[1]] += 1
                     if self.validate(field):
                         if not self.solve(field, self.find_empty(field)):
-                                return self.solve(field, pos)
+                            return self.solve(field, pos)
                     else:
                         return self.solve(field, pos)
                 else:
@@ -26,7 +27,6 @@ class Solver:
                     return True
                 else:
                     return False
-            
 
     def find_empty(self, field):
         for x in range(len(field)):
@@ -45,7 +45,7 @@ class Solver:
         return True
 
     def validate(self, field):
-        field = copy.deepcopy(field)
+        field = [copy.copy(i) for i in field]
         # row
         for row in field:
             if not self.validate_list(row):
@@ -82,7 +82,7 @@ class Solver:
             field = copy.deepcopy(self.solution)
         else:
             field = copy.deepcopy(self.field)
-            
+
         print_string = ""
         row_counter = 0
         for i in field:
@@ -95,30 +95,21 @@ class Solver:
             row_counter += 1
         return print_string
 
+
 if __name__ == "__main__":
     field = [
-        [3,2,0,0,0,0,0,6,0],
-        [0,0,4,0,8,3,0,0,0],
-        [7,5,0,0,9,0,0,0,0],
-        [5,3,0,0,0,1,0,0,0],
-        [0,0,1,0,0,0,8,0,0],
-        [0,0,0,4,0,0,0,2,7],
-        [0,0,0,0,1,0,0,3,6],
-        [0,0,0,9,6,0,2,0,0],
-        [0,9,0,0,0,0,0,8,1]
+        [3, 2, 0, 0, 0, 0, 0, 6, 0],
+        [0, 0, 4, 0, 8, 3, 0, 0, 0],
+        [7, 5, 0, 0, 9, 0, 0, 0, 0],
+        [5, 3, 0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 8, 0, 0],
+        [0, 0, 0, 4, 0, 0, 0, 2, 7],
+        [0, 0, 0, 0, 1, 0, 0, 3, 6],
+        [0, 0, 0, 9, 6, 0, 2, 0, 0],
+        [0, 9, 0, 0, 0, 0, 0, 8, 1]
+    ]
+    field = [
     ]
     solver = Solver(field)
     pos = solver.find_empty(field)
     solver.solve(field, pos)
-
-    """ 
-        [5,3,0,4,0,0,0,0,0],
-        [9,1,0,0,2,0,0,3,5],
-        [0,0,2,0,3,0,1,4,0],
-        [2,0,9,0,8,0,4,0,3],
-        [0,5,0,2,6,4,0,0,0],
-        [0,0,0,9,7,3,0,6,0],
-        [0,0,0,0,0,7,0,1,4],
-        [7,4,0,0,1,0,0,9,8],
-        [0,2,6,0,4,0,3,0,0]
-    """

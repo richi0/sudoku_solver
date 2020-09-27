@@ -13,6 +13,18 @@ field = [
     [0, 9, 0, 0, 0, 0, 0, 8, 1]
 ]
 
+field2 = [
+    [5, 3, 0, 4, 0, 0, 0, 0, 0],
+    [9, 1, 0, 0, 2, 0, 0, 3, 5],
+    [0, 0, 2, 0, 3, 0, 1, 4, 0],
+    [2, 0, 9, 0, 8, 0, 4, 0, 3],
+    [0, 5, 0, 2, 6, 4, 0, 0, 0],
+    [0, 0, 0, 9, 7, 3, 0, 6, 0],
+    [0, 0, 0, 0, 0, 7, 0, 1, 4],
+    [7, 4, 0, 0, 1, 0, 0, 9, 8],
+    [0, 2, 6, 0, 4, 0, 3, 0, 0]
+]
+
 solver = Solver(field)
 
 
@@ -44,7 +56,7 @@ def test_find_empty():
 
 
 def test_solve():
-    solution = [
+    solution1 = [
         [3, 2, 9, 1, 4, 7, 5, 6, 8],
         [1, 6, 4, 5, 8, 3, 7, 9, 2],
         [7, 5, 8, 2, 9, 6, 3, 1, 4],
@@ -57,4 +69,20 @@ def test_solve():
     ]
     pos = solver.find_empty(field)
     solver.solve(field, pos)
-    assert solver.solution == solution
+    assert solver.solution == solution1
+
+    solution2 = [
+        [5, 3, 8, 4, 9, 1, 7, 2, 6],
+        [9, 1, 4, 7, 2, 6, 8, 3, 5],
+        [6, 7, 2, 5, 3, 8, 1, 4, 9],
+        [2, 6, 9, 1, 8, 5, 4, 7, 3],
+        [3, 5, 7, 2, 6, 4, 9, 8, 1],
+        [4, 8, 1, 9, 7, 3, 5, 6, 2],
+        [8, 9, 3, 6, 5, 7, 2, 1, 4],
+        [7, 4, 5, 3, 1, 2, 6, 9, 8],
+        [1, 2, 6, 8, 4, 9, 3, 5, 7]
+    ]
+    solver2 = Solver(field2)
+    pos = solver2.find_empty(field2)
+    solver2.solve(field2, pos)
+    assert solver2.solution == solution2
